@@ -1,4 +1,4 @@
-package com.example.widget_of_week
+package com.example.fotmob_clone
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

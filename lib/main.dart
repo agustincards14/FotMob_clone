@@ -147,46 +147,57 @@ class NewsHomePage extends StatelessWidget {
           Article article = articlesList[index];
           if (index == 0) {
             return Container(
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Row(
-                  children: <Widget>[
-                    article.thumbnail, //article image
-                    Column(children: [
+              height: 400,
+              child: InkWell(
+                onTap: () {},
+                child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      article.thumbnail, //article image
                       Text(article.title,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 30)),
-                      Text(article.subtitle),
-                    ])
-                  ],
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Text(article.subtitle)
+                    ],
+                  ),
                 ),
               ),
             );
           }
           return Container(
-            height: 140,
+            height: 120,
             margin: EdgeInsets.all(0),
             child: InkWell(
-              splashColor: Theme.of(context).primaryColorLight,
               onTap: () {},
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Row(children: [
                   article.thumbnail,
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: 200,
-                          child: Text(
-                            article.title,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: 200,
+                            child: Text(
+                              article.title,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                        Text(article.subtitle),
-                      ])
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Text(article.subtitle),
+                        ]),
+                  )
                 ]),
               ),
             ),
@@ -198,7 +209,7 @@ class NewsHomePage extends StatelessWidget {
 }
 
 class Article {
-  Image thumbnail;
+  ClipRRect thumbnail;
   String imageURL;
   String myTitle;
   String subtitle;
@@ -207,14 +218,14 @@ class Article {
 
   Article(this.imageURL, this.myTitle, this.subtitle) {
     //TODO: Convert DateTime and URL to Image for thumbnail use
-    thumbnail = Image.network(
-      imageURL,
-      width: 60,
-      height: 40,
-    );
+    thumbnail = ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Image.network(
+          imageURL,
+        ));
   }
 
-  Image get image => thumbnail;
+  ClipRRect get image => thumbnail;
   String get title => myTitle;
   String get timestamp => ts;
 }

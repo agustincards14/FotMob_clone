@@ -1,6 +1,6 @@
 {
-    "name": "widget_of_week",
-    "short_name": "widget_of_week",
+    "name": "fotmob_clone",
+    "short_name": "fotmob_clone",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#0175C2",
