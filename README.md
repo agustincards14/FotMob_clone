@@ -1,6 +1,6 @@
 # fotmob_clone
 
-A new Flutter project.
+A Flutter UI clone based on the Soccer News app - FotMob.
 
 ## Getting Started
 
