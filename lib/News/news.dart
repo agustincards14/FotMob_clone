@@ -5,7 +5,7 @@ class NewsHomePage extends StatelessWidget {
   final List<Article> articlesList = [];
   final List<String> imageURLList = [];
   final TextStyle headerStyle =
-      TextStyle(fontWeight: FontWeight.bold, fontSize: 30);
+      TextStyle(fontWeight: FontWeight.bold, fontSize: 26);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class NewsHomePage extends StatelessWidget {
           Article article = articlesList[index];
           if (index == 0) {
             return Container(
-              height: 400,
+              height: 391,
               child: InkWell(
                 onTap: () {
                   Navigator.push(
@@ -32,21 +32,35 @@ class NewsHomePage extends StatelessWidget {
                           builder: (context) => ArticleView(article)));
                 },
                 child: Padding(
-                  padding: EdgeInsets.all(20.0),
+                  padding: EdgeInsets.all(15.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: article.thumbnail), //article image
-                      Text(
-                        article.title,
-                        style: headerStyle,
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Container(
+                          height: 250,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(article.imageURL)),
+                          ),
+                        ),
                       ),
-                      SizedBox(
-                        height: 25,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8.0, left: 8.0, right: 8.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                article.title,
+                                style: headerStyle,
+                              ),
+                              SizedBox(height: 15),
+                              Text(article.subtitle)
+                            ]),
                       ),
-                      Text(article.subtitle)
                     ],
                   ),
                 ),
@@ -64,7 +78,7 @@ class NewsHomePage extends StatelessWidget {
                         builder: (context) => ArticleView(article)));
               },
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Row(children: [
                   ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
@@ -131,6 +145,7 @@ class ArticleView extends StatelessWidget {
     return Scaffold(
       body: Stack(children: [
         ListView(
+          //TODO: Replace ListView with ScrollView
           //TODO: Test scrollability of article text with file stream for mass text
           children: <Widget>[
             article.image,
@@ -143,14 +158,17 @@ class ArticleView extends StatelessWidget {
                       article.title,
                       style: headerStyle,
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: 20),
                     Text(article.subtitle),
-                    SizedBox(height: 50),
-                    Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(border: Border.all()),
-                        child: Text(
-                            "CONTENT\n GOES\n HERE\nBLAH\nBLAH\BLAH\nCONTENT\n GOES\n HERE\nBLAH\nBLAH\BLAH\nCONTENT\n GOES\n HERE\nBLAH\nBLAH\BLAH")),
+                    SizedBox(height: 30),
+                    SingleChildScrollView(
+                      //Might not be necessary
+                      child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(border: Border.all()),
+                          child: Text(
+                              "CONTENT\n GOES\n HERE\nBLAH\nBLAH\BLAH\nCONTENT\n GOES\n HERE\nBLAH\nBLAH\BLAH\nCONTENT\n GOES\n HERE\nBLAH\nBLAH\BLAH")),
+                    ),
                   ]),
             )
           ],
