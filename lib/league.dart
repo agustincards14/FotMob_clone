@@ -10,11 +10,20 @@
 import 'package:flutter/widgets.dart';
 
 class League {
-  String name;
-  List<String> confs;
-  int tabs;
+  String _name;
+  List<String> _confs;
   Icon icon;
   int importance;
 
-  League(this.name, this.confs, this.tabs, {this.icon, this.importance});
+  League(this._name, this._confs, {this.icon, this.importance});
+
+  List<String> get conf => _confs;
+  get name => _name;
+}
+
+class Conference {
+  League parent;
+  String name;
+
+  Conference(this.parent, this.name);
 }

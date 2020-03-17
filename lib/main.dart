@@ -35,21 +35,18 @@ class _HomeScaffoldState extends State<HomeScaffold> {
   League _currentLeague;
   int _selectedIndex = 0;
   static League usl =
-      League("USL", ["Championship", "League One", "League Two"], 3);
-  static League nisa = League("NISA", ["NISA"], 1);
-  static League npsl = League("NPSL", ["West", "Midwest", "South", "East"], 4);
-  static League upsl = League(
-      "UPSL",
-      [
-        "Western",
-        "Northeast",
-        "Southeast",
-        "Central",
-        "Midwest",
-        "Southwest",
-        "Mountain"
-      ],
-      7);
+      League("USL", ["Championship", "League One", "League Two"]);
+  static League nisa = League("NISA", ["NISA"]);
+  static League npsl = League("NPSL", ["West", "Midwest", "South", "East"]);
+  static League upsl = League("UPSL", [
+    "Western",
+    "Northeast",
+    "Southeast",
+    "Central",
+    "Midwest",
+    "Southwest",
+    "Mountain"
+  ]);
   List<League> _leagues = [usl, nisa, npsl, upsl];
 
   // List<String> _leagueNames = ["USL", "NISA", "NPSL", "UPSL"];
@@ -87,6 +84,7 @@ class _HomeScaffoldState extends State<HomeScaffold> {
     setState(() {
       _selectedIndex = index;
     });
+    print("inside index $_selectedIndex");
   }
 
   void _newLeagueSelected(League league) {
@@ -95,10 +93,42 @@ class _HomeScaffoldState extends State<HomeScaffold> {
     });
   }
 
-  Widget choosePageView() {
-    return Center(
-      child: _widgetOptions[_selectedIndex],
-    );
+  TabBarView _returnTabBarView() {
+    //need to find a way to track which conference I'm in, in orde to display pageview pertaining to that conf
+    // _currentLeague.confs
+    return TabBarView(
+        children: _currentLeague.conf
+            .map((conference) => Center(child: Text("$conference")))
+            .toList());
+  }
+
+  Widget _choosePageView() {
+    switch (_selectedIndex) {
+      case 0: //Matches Page
+        return TabBarView(
+            children: _currentLeague.conf
+                .map((conference) => Center(child: Text("$conference")))
+                .toList());
+        break;
+
+      case 1: //News Page
+        return NewsHomePage();
+        break;
+
+      case 2: //Teams Page
+        return TeamsHomePage();
+        break;
+      default:
+    }
+    // return _selectedIndex!=1
+    // ? TabBarView(
+    //     children: _currentLeague.conf
+    //         .map((conference) => Center(child: Text("$conference")))
+    //         .toList())
+    // :
+    // return Center(
+    //   child: _widgetOptions[_selectedIndex],
+    // );
   }
 
   @override
@@ -111,17 +141,17 @@ class _HomeScaffoldState extends State<HomeScaffold> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
-      length: _currentLeague.tabs,
+      length: _currentLeague.conf.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("FotMob"),
+          title: Text("Futbol USA"),
           bottom: _selectedIndex != 1
               ? PreferredSize(
                   preferredSize: const Size.fromHeight(45.0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: TabBar(isScrollable: true, tabs: [
-                      for (final conf in _currentLeague.confs)
+                      for (final conf in _currentLeague.conf)
                         Tab(
                           text: conf,
                         )
@@ -163,7 +193,8 @@ class _HomeScaffoldState extends State<HomeScaffold> {
             ],
           ),
         ),
-        body: choosePageView(),
+        body: _choosePageView(),
+        //TabBarView(children: _returnPageViews()),
         bottomNavigationBar: BottomNavigationBar(
           // unselectedItemColor: const Color(0xffb0bec5),
           type: BottomNavigationBarType.fixed,
