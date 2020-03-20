@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:fotmob_clone/Teams/teams.dart';
+import 'package:fotmob_clone/Matches/matches.dart';
 import 'News/news.dart';
 import 'league.dart';
-import 'Teams/teams.dart';
+import 'Standings/standings.dart';
 
 void main() => runApp(MyApp());
 
@@ -70,14 +70,14 @@ class _HomeScaffoldState extends State<HomeScaffold> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const TextStyle drawerStyle =
       TextStyle(color: Colors.white, fontSize: 35, fontWeight: FontWeight.w100);
-  static List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Matches',
-      style: optionStyle,
-    ),
-    NewsHomePage(),
-    TeamsHomePage(), //route not even used, return NewsHomePage based on index selected in BottomNavigation
-  ];
+  // static List<Widget> _widgetOptions = <Widget>[
+  //   Text(
+  //     'Index 0: Matches',
+  //     style: optionStyle,
+  //   ),
+  //   NewsHomePage(),
+  //   StandingsHomePage(), //route not even used, return NewsHomePage based on index selected in BottomNavigation
+  // ];
 
   void _navItemTapped(int index) {
     //TODO: Navigate to NEWS ROUTE
@@ -90,6 +90,7 @@ class _HomeScaffoldState extends State<HomeScaffold> {
   void _newLeagueSelected(League league) {
     setState(() {
       _currentLeague = league;
+      _choosePageView();
     });
   }
 
@@ -106,8 +107,9 @@ class _HomeScaffoldState extends State<HomeScaffold> {
     switch (_selectedIndex) {
       case 0: //Matches Page
         return TabBarView(
+            //map conf as tabBarViews, inflate by calling Stateless widget of match class
             children: _currentLeague.conf
-                .map((conference) => Center(child: Text("$conference")))
+                .map((conference) => MatchHome(_currentLeague, conference))
                 .toList());
         break;
 
@@ -116,9 +118,16 @@ class _HomeScaffoldState extends State<HomeScaffold> {
         break;
 
       case 2: //Teams Page
-        return TeamsHomePage();
+        return TabBarView(
+            children: _currentLeague.conf
+                .map((conference) =>
+                    StandingsHomePage(_currentLeague, conference))
+                .toList());
         break;
       default:
+        return AlertDialog(
+          title: Text("Page View Error"),
+        );
     }
     // return _selectedIndex!=1
     // ? TabBarView(
@@ -139,9 +148,11 @@ class _HomeScaffoldState extends State<HomeScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    // _currentConf = _currentLeague.conf;
     return DefaultTabController(
       initialIndex: 0,
       length: _currentLeague.conf.length,
+      //DefaultTabController.of(context).length;
       child: Scaffold(
         appBar: AppBar(
           title: Text("Futbol USA"),
@@ -150,12 +161,20 @@ class _HomeScaffoldState extends State<HomeScaffold> {
                   preferredSize: const Size.fromHeight(45.0),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: TabBar(isScrollable: true, tabs: [
-                      for (final conf in _currentLeague.conf)
-                        Tab(
-                          text: conf,
-                        )
-                    ]),
+                    child: TabBar(
+                        isScrollable: true,
+                        tabs: _currentLeague.conf
+                            .map((e) => Tab(
+                                  text: "$e",
+                                ))
+                            .toList()
+                        //   [
+                        //   for (final conf in _currentLeague.conf)
+                        //     Tab(
+                        //       text: conf,
+                        //     )
+                        // ]
+                        ),
                   ),
                 )
               : null, //No TabBar on "NEWS" Page, too little news for each conference. Keep it broad
@@ -209,7 +228,7 @@ class _HomeScaffoldState extends State<HomeScaffold> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.group),
-              title: Text('Teams'),
+              title: Text('Standings'),
             ),
           ],
           currentIndex: _selectedIndex,

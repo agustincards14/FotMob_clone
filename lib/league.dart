@@ -15,15 +15,26 @@ class League {
   Icon icon;
   int importance;
 
-  League(this._name, this._confs, {this.icon, this.importance});
+  League(this._name, this._confs, {this.icon, this.importance})
+      : assert(_confs != null) {
+    print("created conf for $_name");
+  }
 
   List<String> get conf => _confs;
-  get name => _name;
+  String get name => _name;
 }
 
 class Conference {
   League parent;
   String name;
+  List<Team> teams;
 
   Conference(this.parent, this.name);
+}
+
+class Team {
+  Conference parent;
+  String name;
+
+  Team(this.parent, this.name);
 }

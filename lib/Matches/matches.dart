@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fotmob_clone/league.dart';
-import '';
 
-class MatchHome extends StatefulWidget {
+class MatchHome extends StatelessWidget {
   League _league;
-  MatchHome(this._league, {Key key}) : super(key: key);
-
-  @override
-  _MatchHomeState createState() => _MatchHomeState(_league);
-}
-
-class _MatchHomeState extends State<MatchHome> {
-  League _league;
-  _MatchHomeState(this._league);
-
+  String leaguename;
+  String confname;
+  // Conference _conf;
+  MatchHome(this._league, this.confname) : leaguename = _league.name
+  // confname = _conf.name;
+  ;
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("$_league.name"),
-    );
+    return Center(child: Text("Matches for $leaguename : $confname")
+        //Column(
+        // children: <Widget>[],
+        );
   }
 }
