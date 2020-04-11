@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fotmob_clone/models/news_model.dart';
 
 class NewsHomePage extends StatelessWidget {
   final List<Article> articlesList = [];
@@ -111,26 +112,6 @@ class NewsHomePage extends StatelessWidget {
       ),
     );
   }
-}
-
-class Article {
-  Image thumbnail;
-  String imageURL;
-  String myTitle;
-  String subtitle;
-  DateTime dt;
-  String ts;
-
-  Article(this.imageURL, this.myTitle, this.subtitle) {
-    //TODO: Convert DateTime and URL to Image for thumbnail use
-    thumbnail = Image.network(
-      imageURL,
-    );
-  }
-
-  Image get image => thumbnail;
-  String get title => myTitle;
-  String get timestamp => ts;
 }
 
 class ArticleView extends StatelessWidget {

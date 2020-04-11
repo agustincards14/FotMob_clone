@@ -1,0 +1,116 @@
+# EPL
+{
+    *            "league_id": 524,
+    *            "name": "Premier League", 
+    *            "type": "League",
+    *            "country": "England",
+                "country_code": "GB",
+    *            "season": 2019,
+                "season_start": "2019-08-09",
+                "season_end": "2020-05-17",
+    *            "logo": "https://media.api-sports.io/leagues/2.png",
+                "flag": "https://media.api-sports.io/flags/gb.svg",
+                "standings": 1,
+                "is_current": 1,
+    *            "coverage": {
+                    "standings": true,
+                    "fixtures": {
+                        "events": true,
+                        "lineups": true,
+                        "statistics": true,
+                        "players_statistics": true
+                    },
+                    "players": true,
+                *   "topScorers": true,
+                    "predictions": true,
+                    "odds": false
+                }
+}
+
+# LA LIGA
+{
+                "league_id": 775,
+                "name": "Primera Division",
+                "type": "League",
+                "country": "Spain",
+                "country_code": "ES",
+                "season": 2019,
+                "season_start": "2019-08-16",
+                "season_end": "2020-05-23",
+                "logo": "https://media.api-sports.io/leagues/87.png",
+                "flag": "https://media.api-sports.io/flags/es.svg",
+                "standings": 1,
+                "is_current": 1,
+                "coverage": {
+                    "standings": true,
+                    "fixtures": {
+                        "events": true,
+                        "lineups": true,
+                        "statistics": true,
+                        "players_statistics": true
+                    },
+                    "players": true,
+                    "topScorers": true,
+                    "predictions": true,
+                    "odds": false
+                }
+}
+
+# BUNDESLIGA
+{
+                "league_id": 754,
+                "name": "Bundesliga 1",
+                "type": "League",
+                "country": "Germany",
+                "country_code": "DE",
+                "season": 2019,
+                "season_start": "2019-08-16",
+                "season_end": "2020-05-16",
+                "logo": "https://media.api-sports.io/leagues/8.png",
+                "flag": "https://media.api-sports.io/flags/de.svg",
+                "standings": 1,
+                "is_current": 1,
+                "coverage": {
+                    "standings": true,
+                    "fixtures": {
+                        "events": true,
+                        "lineups": true,
+                        "statistics": true,
+                        "players_statistics": true
+                    },
+                    "players": true,
+                    "topScorers": true,
+                    "predictions": true,
+                    "odds": true
+                }
+}        
+
+# SERIE A
+
+{
+                    "league_id": 891,
+                    "name": "Serie A",
+                    "type": "League",
+                    "country": "Italy",
+                    "country_code": "IT",
+                    "season": 2019,
+                    "season_start": "2019-08-24",
+                    "season_end": "2020-05-24",
+                    "logo": "https://media.api-sports.io/leagues/94.png",
+                    "flag": "https://media.api-sports.io/flags/it.svg",
+                    "standings": 1,
+                    "is_current": 1,
+                    "coverage": {
+                        "standings": true,
+                        "fixtures": {
+                            "events": true,
+                            "lineups": true,
+                            "statistics": true,
+                            "players_statistics": true
+                        },
+                        "players": true,
+                        "topScorers": true,
+                        "predictions": true,
+                        "odds": false
+                }
+ }
