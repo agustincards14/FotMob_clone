@@ -4,6 +4,7 @@ import 'package:fotmob_clone/database/league_drawer.dart';
 import 'package:fotmob_clone/database/my_client.dart';
 import 'package:fotmob_clone/models/gameweek.dart';
 import 'package:fotmob_clone/views/matches.dart';
+import 'package:fotmob_clone/views/player_rankings.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:fotmob_clone/models/league.dart';
@@ -33,15 +34,15 @@ class MyApp extends StatelessWidget {
         primaryColorLight: const Color(0xff51bf6e),
         accentColor: const Color(0xffcddc39),
       ),
-      home: HomeScaffold(),
+      home: HomeScaffold("Simple Soccer"),
       routes: {'/news': (context) => NewsHomePage()},
     );
   }
 }
 
 class HomeScaffold extends StatefulWidget {
-  HomeScaffold({Key key}) : super(key: key);
-
+  HomeScaffold(this.title, {Key key}) : super(key: key);
+  String title;
   @override
   _HomeScaffoldState createState() => _HomeScaffoldState();
 }
@@ -73,10 +74,11 @@ class _HomeScaffoldState extends State<HomeScaffold> {
     switch (_selectedIndex) {
       case 0: //Matches Page
         return TabBarView(
-            //map list of fixtures from each gameweek from the current league into the MatchHome Widget to display
-            children: _currentLeague.gameweeks
-                .map((gw) => MatchHome(gw.fixtures, gw.week))
-                .toList());
+          //map list of fixtures from each gameweek from the current league into the MatchHome Widget to display
+          children: _currentLeague.gameweeks
+              .map((gw) => MatchHome(gw.fixtures, gw.week))
+              .toList(),
+        );
         break;
 
       case 1: //News Page
@@ -84,11 +86,13 @@ class _HomeScaffoldState extends State<HomeScaffold> {
         break;
 
       case 2: //Teams Page
-        return TabBarView(children: [
-          Standings(),
-          Text('2nd tab'),
-          Text('3rd tab'),
-        ]);
+        return TabBarView(
+          //map list of fixtures from each gameweek from the current league into the MatchHome Widget to display
+          children: [
+            Standings(),
+            PlayerRankings(),
+          ],
+        );
         break;
       default:
         return AlertDialog(
@@ -99,54 +103,38 @@ class _HomeScaffoldState extends State<HomeScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    // print('leagueDrawer.currentleague: ${leagueDrawer.currentLeague.name}');
-    // try {
-    //   _currentLeague = leagueDrawer.currentLeague;
-    //   assert(_currentLeague != null);
-    //   _gameweeks = _currentLeague.gameweeks;
-    //   assert(_gameweeks != null);
-    //   print(
-    //       'There are ${_gameweeks.length} gameweeks for ${_currentLeague.name}');
-    // } catch (e, s) {
-    //   print('Exception details:\n $e');
-    //   print('Stack trace:\n $s');
-    // }
-
-    //TODO: ^ THIS CODE HERE LeagueDrawer() creates a NEW instance of drawer BECAUSE it is not singleton.
-    // Therefore, the code above passes the assertion, but everytime I try to build a widget using LeagueDrawer
-    //as provider, it is using a FRESH object, not the one I originally populated
-
+    bool onMatchPage = _selectedIndex == 0;
+    bool onStandings = _selectedIndex == 2;
     return DefaultTabController(
-      initialIndex: 0,
-      length: //
-          3, // 3 days will be the # of tabs on the MATCHES VIEW ONLY (last/current/next GW)
-      //TODO: What tab options should I introduce on Standings VIEW? Maybe player rankings (top scorers/saves/assists)?
-      //DefaultTabController.of(context).length;
+      length: onMatchPage ? 3 : onStandings ? 2 : 0,
+      initialIndex: onMatchPage ? 1 : 0,
       child: Consumer<LeagueDrawer>(
         builder: (context, drawer, child) {
           _currentLeague = drawer.currentLeague;
           return Scaffold(
             appBar: AppBar(
-              title: Text("My Soccer App"),
-              bottom: _selectedIndex != 1
+              centerTitle: true,
+              title: Text(
+                "My Soccer App",
+              ),
+              bottom: (onMatchPage || onStandings)
                   ? PreferredSize(
                       preferredSize: const Size.fromHeight(45.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: TabBar(
-                            isScrollable: true,
-                            tabs: _selectedIndex == 0
-                                ? //Matches View
-                                _currentLeague.gameweeks
-                                    .map((gw) =>
-                                        Tab(text: "Gameweek ${gw.week}"))
-                                    .toList()
-                                : //Standings View
-                                [
-                                    Tab(text: "Table"),
-                                    Tab(text: "Stats"),
-                                    Tab(text: "Rankings")
-                                  ]),
+                          isScrollable: true,
+                          tabs: onMatchPage
+                              ? //Matches View
+                              _currentLeague.gameweeks
+                                  .map((gw) => Tab(text: "Gameweek ${gw.week}"))
+                                  .toList()
+                              : //Standings View
+                              [
+                                  Tab(text: "Table"),
+                                  Tab(text: "Rankings"),
+                                ],
+                        ),
                       ),
                     )
                   : null, //No TabBar on "NEWS" Page, too little news for each conference. Keep it broad
