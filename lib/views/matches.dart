@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fotmob_clone/database/league_drawer.dart';
 
 import 'package:fotmob_clone/models/fixture.dart';
+import 'package:fotmob_clone/models/gameweek.dart';
 import 'package:fotmob_clone/models/league.dart';
 import 'package:provider/provider.dart';
 
@@ -9,30 +10,37 @@ class MatchHome extends StatelessWidget {
   List<Fixture> fixtures;
   String leaguename;
   League currentLeague;
+  Gameweek gameweek;
   int gameweekInt;
 
   MatchHome(this.fixtures, this.gameweekInt);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LeagueDrawer>(
-      //DO I EVEN NEED CONSUMER HERE? I think YES in order to rebuild this widget when LeagueDrawer updates
-      //IF MatchesView depends on Gameweek, which already depends on current League
-      builder: (context, drawer, child) {
-        assert(drawer.currentLeague != null);
-        currentLeague = drawer.currentLeague;
-
-        //fixtures=currentLeague.what?? do fixtures update auto when dependency changes?
-
-        return SingleChildScrollView(
+    //fixtures=currentLeague.what?? do fixtures update auto when dependency changes?
+    return ListView(
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+      children: <Widget>[
+        Card(
+          //semanticContainer: false,
+          elevation: 2,
           child: Column(
-            children: [
-              Text(
-                  "${currentLeague.name} fixtures here for round $gameweekInt"),
-            ],
+            children: fixtures.map((fix) => fix.toRow()).toList(),
           ),
-        );
-      }, // builder
+        ),
+        Card(
+          child: Container(
+            child: Text("Gameday #2"),
+            height: 100,
+          ),
+        ),
+        Card(
+          child: Container(
+            child: Text("Gameday #2"),
+            height: 100,
+          ),
+        ),
+      ],
     );
   }
 

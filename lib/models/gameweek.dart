@@ -5,8 +5,6 @@ import 'package:fotmob_clone/models/league.dart';
 
 part 'gameweek.g.dart';
 
-//https://api-football-v1.p.rapidapi.com/v2/fixtures/league/524/last/10 ['api]
-
 @JsonSerializable(ignoreUnannotated: true)
 class Gameweek {
   @JsonKey()

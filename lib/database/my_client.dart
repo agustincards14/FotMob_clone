@@ -21,12 +21,10 @@ class MyClient {
   List<League> topLeagues = [
     League(524, "English Premier League",
         "https://media.api-sports.io/leagues/2.png"),
+    League(775, "La Liga", "https://media.api-sports.io/leagues/87.png"),
+    League(754, "Bundesliga", "https://media.api-sports.io/leagues/8.png"),
+    League(891, "Seria A", "https://media.api-sports.io/leagues/94.png")
   ];
-
-  //   League(775, "La Liga", "https://media.api-sports.io/leagues/87.png"),
-  //   League(754, "Bundesliga", "https://media.api-sports.io/leagues/8.png"),
-  //   League(891, "Seria A", "https://media.api-sports.io/leagues/94.png")
-  // ];
 
   static const Map<String, String> _headers = {
     'x-rapidapi-host': "api-football-v1.p.rapidapi.com",
@@ -63,7 +61,7 @@ class MyClient {
 
       await getGameweeks(lastRoundInt, roundStrings, league);
       //TODO: comment out only for MATCHHOME widget construction
-      //await getStandings(league);
+      await getStandings(league);
     }
   }
 

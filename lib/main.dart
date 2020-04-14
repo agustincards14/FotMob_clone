@@ -90,7 +90,7 @@ class _HomeScaffoldState extends State<HomeScaffold> {
           //map list of fixtures from each gameweek from the current league into the MatchHome Widget to display
           children: [
             Standings(),
-            PlayerRankings(),
+            //PlayerRankings(),
           ],
         );
         break;
@@ -106,39 +106,39 @@ class _HomeScaffoldState extends State<HomeScaffold> {
     bool onMatchPage = _selectedIndex == 0;
     bool onStandings = _selectedIndex == 2;
     return DefaultTabController(
-      length: onMatchPage ? 3 : onStandings ? 2 : 0,
+      length: onMatchPage ? 3 : onStandings ? 1 : 0,
       initialIndex: onMatchPage ? 1 : 0,
       child: Consumer<LeagueDrawer>(
         builder: (context, drawer, child) {
           _currentLeague = drawer.currentLeague;
           return Scaffold(
             appBar: AppBar(
-              centerTitle: true,
-              title: Text(
-                "My Soccer App",
-              ),
-              bottom: (onMatchPage || onStandings)
-                  ? PreferredSize(
-                      preferredSize: const Size.fromHeight(45.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: TabBar(
-                          isScrollable: true,
-                          tabs: onMatchPage
-                              ? //Matches View
-                              _currentLeague.gameweeks
-                                  .map((gw) => Tab(text: "Gameweek ${gw.week}"))
-                                  .toList()
-                              : //Standings View
-                              [
-                                  Tab(text: "Table"),
-                                  Tab(text: "Rankings"),
-                                ],
+                centerTitle: true,
+                title: Text(
+                  "My Soccer App",
+                ),
+                bottom: !(onMatchPage || onStandings)
+                    ? null
+                    : PreferredSize(
+                        preferredSize: const Size.fromHeight(45.0),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: TabBar(
+                            isScrollable: true,
+                            tabs: onMatchPage
+                                ? //Matches View
+                                _currentLeague.gameweeks
+                                    .map((gw) =>
+                                        Tab(text: "Gameweek ${gw.week}"))
+                                    .toList()
+                                : //Standings View
+                                [
+                                    Tab(text: "Table")
+                                    // Tab(text: "Rankings"),
+                                  ],
+                          ),
                         ),
-                      ),
-                    )
-                  : null, //No TabBar on "NEWS" Page, too little news for each conference. Keep it broad
-            ),
+                      )),
             drawer: Drawer(
               child: ListView(
                 // Important: Remove any padding from the ListView.
